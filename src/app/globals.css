@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-cream: #fdf8f0;
+  --color-cream-dark: #f5ebe0;
+  --color-warm-brown: #8b6f47;
+  --color-warm-text: #3d3830;
+  --color-warm-muted: #6b5d4f;
+  --color-peach-heart: #f4a582;
+  --color-amber: #c4842f;
+  --color-matcha: #a8d5ba;
+  --color-strawberry: #f4b8c1;
+  --color-mango: #f5d76e;
+  --color-peach: #f4a582;
+  --font-display: var(--font-quicksand);
+  --font-body: var(--font-source-sans);
+  --shadow-warm: 0 8px 24px rgb(244 165 130 / 0.14);
+  --shadow-warm-lg: 0 16px 40px rgb(244 165 130 / 0.18);
+  --shadow-warm-hover: 0 12px 32px rgb(244 165 130 / 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-warm-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+html[data-vibe="night"] body {
+  background: #2a2622;
+  color: #f5ebe0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  color: var(--color-warm-text);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-peach) 40%, transparent);
+}
+
+.shadow-warm {
+  box-shadow: var(--shadow-warm);
+}
+
+.shadow-warm-lg {
+  box-shadow: var(--shadow-warm-lg);
+}
+
+.btn-pill {
+  border-radius: 9999px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.btn-pill:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-warm-hover);
+}
+
+.card-warm {
+  border-radius: 1.5rem;
+  border: 1px solid rgb(234 217 200 / 0.6);
+  background: rgb(255 255 255 / 0.7);
+  box-shadow: var(--shadow-warm);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.card-warm:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-warm-lg);
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Receipt sidebar — textured cardstock */
+.receipt-sidebar {
+  background: linear-gradient(
+    175deg,
+    #faf6ef 0%,
+    #f7f0e6 45%,
+    #f3ebe0 100%
+  );
+}
+
+.receipt-grain {
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.pearl-3d {
+  background: radial-gradient(circle at 32% 28%, #4a3f35 0%, #2a2018 55%, #1a1410 100%);
+  box-shadow:
+    inset -1px -2px 3px rgb(0 0 0 / 0.35),
+    1px 2px 4px rgb(196 132 47 / 0.25);
+}
+
+/* Wooden cafe table */
+.wood-table {
+  background-color: #c9a96e;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgb(160 120 70 / 0.15) 0%,
+      transparent 20%,
+      rgb(180 140 85 / 0.12) 40%,
+      transparent 60%,
+      rgb(150 110 65 / 0.18) 80%,
+      transparent 100%
+    ),
+    repeating-linear-gradient(
+      88deg,
+      rgb(139 100 55 / 0.08) 0px,
+      transparent 2px,
+      transparent 48px,
+      rgb(160 120 70 / 0.06) 50px
+    ),
+    radial-gradient(ellipse at 30% 20%, rgb(220 185 130 / 0.35), transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgb(100 70 40 / 0.2), transparent 50%);
+}
+
+/* Frosted warm glass */
+.glass-panel {
+  background: rgb(253 248 240 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    var(--shadow-warm),
+    inset 0 1px 0 rgb(255 255 255 / 0.5);
+}
+
+.polaroid-card {
+  transform-style: preserve-3d;
+}
+
+@media (max-width: 900px) {
+  .receipt-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    height: auto;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+    border-right: 0;
+    border-top: 1px solid #e8dcc8;
+    padding: 0.75rem 1rem;
+  }
+
+  .receipt-sidebar nav {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 0;
+    flex: 1;
+  }
+
+  .receipt-sidebar > div:first-of-type,
+  .receipt-sidebar > div:last-of-type {
+    display: none;
+  }
+}

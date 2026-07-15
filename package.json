@@ -1,0 +1,45 @@
+{
+  "name": "bubble-tea-boutique",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "optimize-model": "gltf-pipeline -i public/models/source/boba-cup.glb -o public/models/boba-cup-draco.glb -d",
+    "generate-cup": "npx gltfjsx public/models/boba-cup-draco.glb --transform --types -o src/components/three/BobaCupGenerated.tsx"
+  },
+  "dependencies": {
+    "@react-spring/three": "^10.0.1",
+    "@react-three/cannon": "^6.6.0",
+    "@react-three/drei": "^10.0.6",
+    "@react-three/fiber": "^9.1.2",
+    "@react-three/postprocessing": "^3.0.4",
+    "canvas-confetti": "^1.9.3",
+    "cannon-es": "^0.20.0",
+    "framer-motion": "^12.6.3",
+    "next": "^15.2.4",
+    "postprocessing": "^6.37.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.175.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.3",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.1",
+    "@types/three": "^0.175.0",
+    "eslint": "^9.24.0",
+    "eslint-config-next": "^15.2.4",
+    "gltf-pipeline": "^4.3.0",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.8.3"
+  }
+}
