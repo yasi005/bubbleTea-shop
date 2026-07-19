@@ -45,8 +45,8 @@ export default function DrinkPage() {
   };
 
   return (
-    <div className="relative flex h-full min-h-screen flex-col lg:flex-row">
-      <div className="relative h-[50vh] min-h-[360px] flex-1 lg:h-screen">
+    <div className="relative flex min-h-full flex-col lg:h-full lg:flex-row">
+      <div className="relative h-[50vh] min-h-[360px] flex-1 lg:h-full">
         <BobaCanvas
           liquidColor={drink.liquidColor}
           interactive

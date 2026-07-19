@@ -23,7 +23,7 @@ export function CafeReceiptSidebar() {
 
   return (
     <aside
-      className={`receipt-sidebar relative flex h-screen w-[25%] min-w-[260px] max-w-[320px] shrink-0 flex-col overflow-y-auto border-r px-6 py-8 ${
+      className={`receipt-sidebar no-scrollbar relative flex h-screen w-[25%] min-w-[260px] max-w-[320px] shrink-0 flex-col overflow-y-auto border-r px-6 py-8 ${
         isNight
           ? "border-[#3d3830] bg-[#2f2a26] text-[#f5ebe0]"
           : "border-[#e8dcc8]"
@@ -39,18 +39,6 @@ export function CafeReceiptSidebar() {
         >
           Bubble Tea Boutique
         </p>
-        <button
-          type="button"
-          onClick={toggleMode}
-          className={`mt-3 flex h-9 w-9 items-center justify-center rounded-full text-lg transition hover:scale-105 ${
-            isNight
-              ? "bg-[#3d3830] text-[#fdf8f0] hover:bg-[#4a433c]"
-              : "bg-[#f5ebe0] text-[#c4842f] hover:bg-[#ead9c8]"
-          }`}
-          aria-label={isNight ? "Switch to day mode" : "Switch to night mode"}
-        >
-          {isNight ? "🌙" : "☀️"}
-        </button>
         <p className={`mt-2 font-mono text-xs ${isNight ? "text-[#a89888]" : "text-[#8b7a68]"}`}>
           {new Date().toLocaleDateString("en-US", {
             weekday: "short",
@@ -219,7 +207,7 @@ export function CafeReceiptSidebar() {
             — My tote bag —
           </p>
 
-          <ul className="mt-3 max-h-40 space-y-1 overflow-y-auto font-mono text-xs">
+          <ul className="no-scrollbar mt-3 max-h-40 space-y-1 overflow-y-auto font-mono text-xs">
             <AnimatePresence initial={false}>
               {basket.length === 0 ? (
                 <motion.li

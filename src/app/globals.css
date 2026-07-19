@@ -51,6 +51,16 @@ h4 {
   background: color-mix(in srgb, var(--color-peach) 40%, transparent);
 }
 
+/* Scrollable but with no visible scrollbar (sidebar, tote list) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .shadow-warm {
   box-shadow: var(--shadow-warm);
 }

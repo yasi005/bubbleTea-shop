@@ -1,6 +1,7 @@
 "use client";
 
 import { useSpring, a } from "@react-spring/three";
+import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import type { Group, MeshStandardMaterial } from "three";
 
@@ -34,6 +35,19 @@ export function CounterCup({
 }: CounterCupProps) {
   const modelRef = useRef<Group>(null);
   const groupRef = useRef<Group>(null);
+  const floatRef = useRef<Group>(null);
+
+  // Gentle idle float on the active cup so the showcase feels alive; eases
+  // back to rest when the cup loses focus.
+  useFrame(({ clock }, delta) => {
+    const float = floatRef.current;
+    if (!float) {
+      return;
+    }
+    const target =
+      isActive && !checkoutOpen ? Math.sin(clock.elapsedTime * 1.4) * 0.045 : 0;
+    float.position.y += (target - float.position.y) * Math.min(1, delta * 5);
+  });
 
   const [{ rotY, scale }, api] = useSpring(() => ({
     rotY: 0,
@@ -87,7 +101,16 @@ export function CounterCup({
         document.body.style.cursor = "default";
       }}
     >
-      <BobaCupModel ref={modelRef} liquidColor={drink.liquidColor} />
+      <group ref={floatRef}>
+        {/* Same clear glass as the brew cup (no transmission — keeps contents
+            and liquid fully visible; HDRI reflections supply the gloss). */}
+        <BobaCupModel
+          ref={modelRef}
+          liquidColor={drink.liquidColor}
+          glassOpacity={0.35}
+          glassTransmission={0}
+        />
+      </group>
 
       {CONDENSATION.map((pos, index) => (
         <mesh key={index} position={pos as [number, number, number]} scale={0.035}>

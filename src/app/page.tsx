@@ -26,11 +26,11 @@ export default function HomePage() {
 
   return (
     <div
-      className={`relative flex min-h-screen flex-col lg:flex-row ${
+      className={`relative flex min-h-full flex-col lg:h-full lg:flex-row ${
         isNight ? "bg-[#2a2622]" : "bg-[#fdf8f0]"
       }`}
     >
-      <div className="relative h-[55vh] min-h-[380px] w-full flex-1 lg:h-screen lg:min-h-[480px]">
+      <div className="relative h-[55vh] min-h-[380px] w-full flex-1 lg:h-full lg:min-h-[480px]">
         <HomeBobaCanvas
           liquidColor={activeDrink.liquidColor}
           spinTrigger={spinTrigger}

@@ -31,7 +31,7 @@ export default function BasketPage() {
   if (basket.length === 0 && !checkedOut) {
     return (
       <div
-        className={`flex h-full min-h-screen items-center justify-center px-8 ${
+        className={`flex min-h-full items-center justify-center px-8 ${
           isNight ? "bg-[#2a2622]" : ""
         }`}
       >
@@ -56,7 +56,7 @@ export default function BasketPage() {
   if (checkedOut) {
     return (
       <div
-        className={`flex h-full min-h-screen items-center justify-center px-8 ${
+        className={`flex min-h-full items-center justify-center px-8 ${
           isNight ? "bg-[#2a2622]" : ""
         }`}
       >

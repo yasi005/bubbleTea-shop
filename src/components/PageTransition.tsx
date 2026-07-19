@@ -18,7 +18,7 @@ export function PageTransition({ children }: PageTransitionProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        className="min-h-screen w-full"
+        className="h-full w-full"
       >
         {children}
       </motion.div>

@@ -40,6 +40,8 @@ export interface BobaCupModelProps {
   showLiquid?: boolean;
   showLid?: boolean;
   showStraw?: boolean;
+  /** Straw color — pass the drink's signature color for a product look */
+  strawColor?: string;
   showPearls?: boolean;
   /** Reliable frosted look without needing an HDRI environment */
   frosted?: boolean;
@@ -60,6 +62,7 @@ export const BobaCupModel = forwardRef<Group, BobaCupModelProps>(
       showLiquid = true,
       showLid = true,
       showStraw = true,
+      strawColor = "#f0ebe4",
       showPearls = true,
       frosted = false,
       glassOpacity = 0.55,
@@ -122,10 +125,12 @@ export const BobaCupModel = forwardRef<Group, BobaCupModelProps>(
                   <cylinderGeometry
                     args={[innerRadiusAt(topY), innerRadiusAt(LIQUID_BOTTOM_Y), height, 48]}
                   />
-                  <meshStandardMaterial
+                  <meshPhysicalMaterial
                     color={liquidColor}
-                    roughness={0.35}
+                    roughness={0.28}
                     metalness={0.05}
+                    clearcoat={0.55}
+                    clearcoatRoughness={0.25}
                     transparent={liquidOpacity < 1}
                     opacity={liquidOpacity}
                   />
@@ -135,21 +140,51 @@ export const BobaCupModel = forwardRef<Group, BobaCupModelProps>(
           : null}
 
         {showLid ? (
-          <mesh name="Lid" position={[0, 0.62, 0]} castShadow>
-            <cylinderGeometry args={[0.5, 0.5, 0.08, 48]} />
-            <meshStandardMaterial color="#faf6f0" roughness={0.4} metalness={0.05} />
-          </mesh>
+          <group name="Lid">
+            {/* Rim ring caps just over the glass edge (outer rim 0.55) and its
+                underside sits flush on the rim top (y = 0.525) — seated, not
+                floating. */}
+            <mesh position={[0, 0.56, 0]} castShadow>
+              <cylinderGeometry args={[0.57, 0.57, 0.07, 48]} />
+              <meshStandardMaterial
+                color="#faf6f0"
+                roughness={0.4}
+                metalness={0.05}
+              />
+            </mesh>
+            {/* Shallow dome, open at the base (hidden inside the rim ring) */}
+            <mesh position={[0, 0.595, 0]} scale={[1, 0.3, 1]} castShadow>
+              <sphereGeometry
+                args={[0.56, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2]}
+              />
+              <meshStandardMaterial
+                color="#faf6f0"
+                roughness={0.4}
+                metalness={0.05}
+                side={THREE.DoubleSide}
+              />
+            </mesh>
+            {/* Grommet ring marking the hole where the straw punches through */}
+            {showStraw ? (
+              <mesh position={[0.07, 0.75, 0]} rotation={[Math.PI / 2, 0, 0.18]}>
+                <torusGeometry args={[0.055, 0.014, 10, 24]} />
+                <meshStandardMaterial color="#d8d2c8" roughness={0.5} />
+              </mesh>
+            ) : null}
+          </group>
         ) : null}
 
         {showStraw ? (
           <mesh
             name="Straw"
-            position={[0.38, 0.95, 0]}
+            position={[0.18, 0.15, 0]}
             rotation={[0, 0, 0.18]}
             castShadow
           >
-            <cylinderGeometry args={[0.035, 0.035, 0.85, 16]} />
-            <meshStandardMaterial color="#f0ebe4" roughness={0.5} />
+            {/* Long enough to run from just above the dome, through the lid
+                hole, down to the bottom of the liquid (~y = -0.79). */}
+            <cylinderGeometry args={[0.035, 0.035, 1.9, 16]} />
+            <meshStandardMaterial color={strawColor} roughness={0.5} />
           </mesh>
         ) : null}
 

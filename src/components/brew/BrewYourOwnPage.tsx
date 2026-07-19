@@ -354,7 +354,7 @@ function BrewYourOwnContent() {
 
   return (
     <div
-      className={`relative flex h-screen flex-col overflow-hidden max-[900px]:h-[calc(100dvh-5rem)] lg:flex-row ${
+      className={`relative flex h-full flex-col overflow-hidden lg:flex-row ${
         isNight ? "bg-[#2a2622]" : "bg-[#fdf8f0]"
       }`}
     >

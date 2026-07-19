@@ -16,7 +16,6 @@ export function SidebarMascot() {
         className="relative flex flex-col items-center"
       >
         <span className="text-2xl leading-none" role="img" aria-label="Sleepy cafe cat">
-          😺
         </span>
         <span className="mt-0.5 text-[8px]">z z z</span>
       </motion.div>

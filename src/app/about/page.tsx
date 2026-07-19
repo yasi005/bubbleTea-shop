@@ -10,7 +10,7 @@ export default function AboutPage() {
 
   return (
     <div
-      className={`flex min-h-screen items-center justify-center px-8 py-12 ${
+      className={`flex min-h-full items-center justify-center px-8 py-12 ${
         isNight ? "bg-[#2a2622]" : "bg-[#fdf8f0]"
       }`}
     >

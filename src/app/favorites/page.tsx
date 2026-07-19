@@ -14,7 +14,7 @@ export default function FavoritesPage() {
 
   if (favoriteDrinks.length === 0) {
     return (
-      <div className="flex h-full min-h-screen items-center justify-center px-8">
+      <div className="flex min-h-full items-center justify-center px-8">
         <div className="glass-panel max-w-md rounded-3xl p-10 text-center">
           <h1 className="font-[family-name:var(--font-quicksand)] text-3xl font-bold text-[#3d3830]">
             No hearts yet
@@ -34,7 +34,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <div className="relative h-full min-h-screen px-8 py-12">
+    <div className="relative min-h-full px-8 py-12">
       <div className="wood-table absolute inset-0 opacity-40" />
       <div className="relative z-10">
         <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#b8956a]">
