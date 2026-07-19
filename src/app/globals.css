@@ -121,6 +121,24 @@ h4 {
   );
 }
 
+/* Night shift — the cardstock gradient is a background-image, so it paints over
+   the Tailwind night bg color. Re-declare it in dark tones instead. */
+html[data-vibe="night"] .receipt-sidebar {
+  background: linear-gradient(
+    175deg,
+    #332e2a 0%,
+    #2f2a26 45%,
+    #2b2622 100%
+  );
+}
+
+/* The grain overlay multiplies against a light surface; on dark it just muddies
+   the panel, so lighten the blend instead. */
+html[data-vibe="night"] .receipt-grain {
+  mix-blend-mode: screen;
+  opacity: 0.28;
+}
+
 .receipt-grain {
   opacity: 0.55;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");

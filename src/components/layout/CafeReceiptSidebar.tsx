@@ -188,7 +188,21 @@ export function CafeReceiptSidebar() {
       <div className="relative z-10 mt-auto space-y-4">
         <button
           type="button"
+          onClick={toggleMode}
+          aria-pressed={isNight}
+          className={`flex w-full items-center justify-center gap-2 rounded-full border px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition ${
+            isNight
+              ? "border-[#5c4f42] text-[#a89888] hover:text-[#f4a582]"
+              : "border-[#ead9c8] text-[#8b7a68] hover:text-[#c4842f]"
+          }`}
+        >
+          {isNight ? "🌙 Night shift" : "☀️ Day shift"}
+        </button>
+
+        <button
+          type="button"
           onClick={toggleSounds}
+          aria-pressed={soundsEnabled}
           className={`flex w-full items-center justify-center gap-2 rounded-full border px-3 py-2 font-mono text-[10px] uppercase tracking-widest transition ${
             isNight
               ? "border-[#5c4f42] text-[#a89888] hover:text-[#f4a582]"
