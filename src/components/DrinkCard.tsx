@@ -44,7 +44,7 @@ export function DrinkCard({ drink }: DrinkCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-[family-name:var(--font-quicksand)] text-lg font-bold text-[#4a3f35]">
+        <h3 className="font-[family-name:var(--font-bubble)] text-lg font-bold text-[#4a3f35]">
           {drink.name}
         </h3>
         <p className="mt-1 flex-1 text-sm text-[#6b5d4f] line-clamp-2">

@@ -21,11 +21,11 @@ export function HeartButton({ drinkId, className = "" }: HeartButtonProps) {
         event.stopPropagation();
         toggleFavorite(drinkId);
       }}
-      className={`flex h-9 w-9 items-center justify-center rounded-full bg-white/80 shadow-sm transition hover:scale-110 ${className}`}
+      className={`flex h-8 w-8 items-center justify-center rounded-full bg-white/80 shadow-sm transition-transform active:scale-95 hover:scale-110 sm:h-9 sm:w-9 ${className}`}
     >
       <svg
-        width="18"
-        height="18"
+        width="16"
+        height="16"
         viewBox="0 0 24 24"
         fill={filled ? "#F4A582" : "none"}
         stroke={filled ? "#F4A582" : "#8B6F47"}

@@ -116,7 +116,7 @@ export function PolaroidScatterMenu() {
               <GlassPanel>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h2 className="font-[family-name:var(--font-quicksand)] text-2xl font-bold text-[#3d3830]">
+                    <h2 className="font-[family-name:var(--font-bubble)] text-2xl font-bold text-[#3d3830]">
                       {selectedDrink.name}
                     </h2>
                     <p className="text-sm text-[#8b7a68]">{selectedDrink.vibe}</p>

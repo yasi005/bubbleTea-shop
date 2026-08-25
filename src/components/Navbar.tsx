@@ -20,7 +20,7 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="font-[family-name:var(--font-quicksand)] text-xl font-bold tracking-tight text-[#4a3f35]"
+          className="font-[family-name:var(--font-bubble)] text-xl font-bold tracking-tight text-[#4a3f35]"
         >
           Bubble Tea Boutique
         </Link>

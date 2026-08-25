@@ -9,7 +9,6 @@ import { useShop } from "@/context/ShopContext";
 import { useVibe } from "@/context/VibeContext";
 import {
   BREW_FLAVORS,
-  MAX_LIQUID_LEVEL,
   POUR_TICK_MS,
   iceLevelFromCubeCount,
 } from "@/lib/brew";
@@ -31,7 +30,7 @@ const SEAL_HANDOFF_MS = 1700;
 const TOAST_VISIBLE_MS = 3000;
 
 function BrewControls() {
-  const { playPop, playIce, playSticker, playShake } = useVibe();
+  const { playPop, playIce, playSticker, playShake, isNight } = useVibe();
   const { addCustomBrewToBasket } = useShop();
   const {
     cup,
@@ -163,184 +162,255 @@ function BrewControls() {
 
   return (
     <>
-    <motion.div
-      animate={{ opacity: isSealing ? 0 : 1 }}
-      transition={{ duration: isSealing ? 0.45 : 0.4 }}
-      style={{ pointerEvents: isSealing ? "none" : "auto" }}
-      className="flex flex-1 flex-col justify-center overflow-y-auto px-6 py-6 lg:h-full lg:max-w-sm"
-    >
-      <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#b8956a]">
-        ✨ Brew your own
-      </p>
-      <h1 className="mt-2 font-[family-name:var(--font-quicksand)] text-2xl font-bold text-[#3d3830]">
-        Your cup, your pace
-      </h1>
-      <p className="mt-2 text-sm text-[#6b5d4f]">
-        Pick a tea base, drop boba, add ice, then hold pour. The 3D cup reads
-        your state in real time.
-      </p>
-
-      <div className="mt-4">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-[#b8956a]">
-          Tea base
-        </p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {BREW_FLAVORS.map((flavorId) => {
-            const drink = getDrinkById(flavorId);
-            const active = selectedFlavor === flavorId;
-            return (
-              <button
-                key={flavorId}
-                type="button"
-                disabled={locked}
-                onClick={() => setSelectedFlavor(flavorId)}
-                className={`btn-pill px-3 py-1.5 text-xs font-semibold transition disabled:opacity-40 ${
-                  active
-                    ? "bg-[#c4842f] text-white"
-                    : "bg-[#f5ebe0] text-[#6b5d4f] hover:bg-[#ead9c8]"
-                }`}
-                style={
-                  active
-                    ? undefined
-                    : { borderLeft: `3px solid ${drink?.liquidColor ?? "#ccc"}` }
-                }
-              >
-                {drink?.name ?? flavorId}
-              </button>
-            );
-          })}
+      <motion.div
+        animate={{ opacity: isSealing ? 0 : 1 }}
+        transition={{ duration: isSealing ? 0.45 : 0.4 }}
+        style={{ pointerEvents: isSealing ? "none" : "auto" }}
+        className={`no-scrollbar flex flex-1 flex-col justify-end overflow-y-auto px-4 pb-3 pt-2 sm:justify-center sm:px-5 sm:py-4 lg:h-full lg:max-w-[20rem] lg:justify-center lg:overflow-hidden lg:px-5 ${
+          isNight ? "text-[#f5ebe0]" : "text-[#3d3830]"
+        }`}
+      >
+        <div>
+          <p className="font-[family-name:var(--font-bubble)] text-[9px] tracking-wide text-[#b8956a]">
+            Pick a flavor · drop · ice · hold to pour
+          </p>
+          <div className="no-scrollbar mt-1.5 -mx-0.5 flex gap-1.5 overflow-x-auto px-0.5 pb-0.5">
+            {BREW_FLAVORS.map((flavorId) => {
+              const drink = getDrinkById(flavorId);
+              const active = selectedFlavor === flavorId;
+              const short =
+                drink?.name.split(" ")[0] ?? flavorId.replace("-", " ");
+              return (
+                <button
+                  key={flavorId}
+                  type="button"
+                  disabled={locked}
+                  onClick={() => setSelectedFlavor(flavorId)}
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors disabled:opacity-40 ${
+                    active
+                      ? "border-transparent text-white shadow-sm"
+                      : isNight
+                        ? "border-[#5c4f42] bg-[#2f2a26]/80 text-[#d4c4b0]"
+                        : "border-[#e0cdb4] bg-white/50 text-[#6b5d4f]"
+                  }`}
+                  style={
+                    active
+                      ? { backgroundColor: drink?.color ?? "#c4842f" }
+                      : undefined
+                  }
+                >
+                  <span
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{
+                      backgroundColor: active
+                        ? "rgba(255,255,255,0.9)"
+                        : (drink?.liquidColor ?? "#ccc"),
+                    }}
+                  />
+                  {short}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <div className="mt-4 space-y-2">
-        <motion.button
-          type="button"
-          disabled={locked}
-          whileTap={locked ? undefined : { scale: 0.97 }}
-          onClick={handleDropBoba}
-          className="btn-pill w-full bg-[#2a2018] px-6 py-2.5 text-left font-semibold text-white hover:bg-[#3d3028] disabled:opacity-40"
-        >
-          Drop Boba
-          <span className="ml-2 text-xs opacity-70">+10 pearls</span>
-        </motion.button>
+        <div className="mt-3 grid grid-cols-2 gap-1.5">
+          <motion.button
+            type="button"
+            disabled={locked}
+            whileTap={locked ? undefined : { scale: 0.97 }}
+            onClick={handleDropBoba}
+            className="rounded-2xl bg-[#f4b8c1] px-3 py-2 text-left transition-colors active:bg-[#efa3af] hover:bg-[#efa3af] disabled:opacity-40"
+          >
+            <p className="font-[family-name:var(--font-bubble)] text-[12px] font-semibold text-[#5c3d42]">
+              Drop boba
+            </p>
+            <p className="mt-0.5 text-[10px] text-[#5c3d42]/60">+10 pearls</p>
+          </motion.button>
 
-        <motion.button
-          type="button"
-          disabled={locked}
-          whileTap={locked ? undefined : { scale: 0.97 }}
-          onClick={handleAddIce}
-          className="btn-pill w-full bg-[#f5ebe0] px-6 py-2.5 text-left font-semibold text-[#3d3830] hover:bg-[#ead9c8] disabled:opacity-40"
-        >
-          Add Ice
-          <span className="ml-2 text-xs opacity-70">+3 cubes</span>
-        </motion.button>
+          <motion.button
+            type="button"
+            disabled={locked}
+            whileTap={locked ? undefined : { scale: 0.97 }}
+            onClick={handleAddIce}
+            className={`rounded-2xl px-3 py-2 text-left transition-colors disabled:opacity-40 ${
+              isNight
+                ? "bg-[#3d3830] text-[#f5ebe0] active:bg-[#4a433c] hover:bg-[#4a433c]"
+                : "bg-[#f5ebe0] text-[#3d3830] active:bg-[#ead9c8] hover:bg-[#ead9c8]"
+            }`}
+          >
+            <p className="font-[family-name:var(--font-bubble)] text-[12px] font-semibold">
+              Add ice
+            </p>
+            <p
+              className={`mt-0.5 text-[10px] ${
+                isNight ? "text-[#a89888]" : "text-[#8b7a68]"
+              }`}
+            >
+              +3 cubes
+            </p>
+          </motion.button>
 
-        <motion.button
-          type="button"
-          disabled={!canPour || locked}
-          whileTap={canPour && !locked ? { scale: 0.97 } : undefined}
-          onMouseDown={startPour}
-          onMouseUp={stopPour}
-          onMouseLeave={stopPour}
-          onTouchStart={startPour}
-          onTouchEnd={stopPour}
-          className={`btn-pill w-full px-6 py-2.5 text-left font-semibold transition ${
-            isPouring
-              ? "bg-[#e8956f] text-white"
-              : canPour
-                ? "bg-[#f4a582] text-white hover:bg-[#e8956f]"
-                : "bg-[#f5ebe0] text-[#8b7a68] disabled:opacity-50"
+          <motion.button
+            type="button"
+            disabled={!canPour || locked}
+            whileTap={canPour && !locked ? { scale: 0.97 } : undefined}
+            onMouseDown={startPour}
+            onMouseUp={stopPour}
+            onMouseLeave={stopPour}
+            onTouchStart={startPour}
+            onTouchEnd={stopPour}
+            className={`rounded-2xl px-3 py-2 text-left transition-colors ${
+              isPouring
+                ? "bg-[#e8956f] text-white"
+                : canPour
+                  ? "bg-[#f4a582] text-white active:bg-[#e8956f] hover:bg-[#e8956f]"
+                  : isNight
+                    ? "bg-[#3d3830] text-[#8b7a68] disabled:opacity-50"
+                    : "bg-[#f5ebe0] text-[#8b7a68] disabled:opacity-50"
+            }`}
+          >
+            <p className="font-[family-name:var(--font-bubble)] text-[12px] font-semibold">
+              {isPouring ? "Pouring…" : "Hold to pour"}
+            </p>
+            <p className="mt-0.5 text-[10px] opacity-75">
+              {Math.round(cup.liquidLevel)}%
+            </p>
+          </motion.button>
+
+          <motion.button
+            type="button"
+            disabled={locked || !hasItems}
+            whileTap={
+              locked || !hasItems ? undefined : { scale: 0.97, rotate: -2 }
+            }
+            onClick={handleShake}
+            className="rounded-2xl bg-[#f0e4f7] px-3 py-2 text-left text-[#5a3d6b] transition-colors active:bg-[#e7d3f0] hover:bg-[#e7d3f0] disabled:opacity-40"
+          >
+            <p className="font-[family-name:var(--font-bubble)] text-[12px] font-semibold">
+              Shake
+            </p>
+            <p className="mt-0.5 text-[10px] opacity-65">rattle pearls</p>
+          </motion.button>
+        </div>
+
+        <div
+          className={`mt-3 grid grid-cols-4 gap-1 rounded-2xl border border-dashed px-2.5 py-2 font-mono text-[10px] tabular-nums ${
+            isNight
+              ? "border-[#5c4f42] bg-[#2f2a26]/70 text-[#d4c4b0]"
+              : "border-[#d4c4b0] bg-white/35 text-[#6b5d4f]"
           }`}
         >
-          {isPouring ? "Pouring…" : "Hold to Pour Tea"}
-          <span className="ml-2 text-xs opacity-80">
-            {Math.round(cup.liquidLevel)}%
-          </span>
-        </motion.button>
+          <div>
+            <p className="text-[9px] uppercase tracking-wider text-[#b8956a]">
+              Pearls
+            </p>
+            <p className="mt-0.5 font-semibold">{cup.pearls.length}</p>
+          </div>
+          <div>
+            <p className="text-[9px] uppercase tracking-wider text-[#b8956a]">
+              Ice
+            </p>
+            <p className="mt-0.5 font-semibold">{cup.iceCubes.length}</p>
+          </div>
+          <div>
+            <p className="text-[9px] uppercase tracking-wider text-[#b8956a]">
+              Fill
+            </p>
+            <p className="mt-0.5 font-semibold">
+              {Math.round(cup.liquidLevel)}%
+            </p>
+          </div>
+          <div className="min-w-0">
+            <p className="text-[9px] uppercase tracking-wider text-[#b8956a]">
+              Base
+            </p>
+            <p className="mt-0.5 truncate font-semibold">
+              {cup.currentFlavor
+                ? (getDrinkById(cup.currentFlavor)?.name.split(" ")[0] ?? "—")
+                : "—"}
+            </p>
+          </div>
+        </div>
 
-        <motion.button
-          type="button"
-          disabled={locked || !hasItems}
-          whileTap={locked || !hasItems ? undefined : { scale: 0.97, rotate: -2 }}
-          onClick={handleShake}
-          className="btn-pill w-full bg-[#e7d3f0] px-6 py-2.5 text-left font-semibold text-[#5a3d6b] hover:bg-[#dcc2e8] disabled:opacity-40"
-        >
-          Shake It
-          <span className="ml-2 text-xs opacity-70">rattle the ice & boba</span>
-        </motion.button>
-      </div>
+        <div className="mt-3 flex gap-1.5">
+          <motion.button
+            type="button"
+            disabled={!canAddToBag || locked}
+            whileTap={canAddToBag && !locked ? { scale: 0.97 } : undefined}
+            onClick={handleBrew}
+            className={`btn-pill min-w-0 flex-1 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-40 ${
+              isReady
+                ? "bg-[#a8d5ba]"
+                : "bg-[#c4842f] active:bg-[#a86f25] hover:bg-[#a86f25]"
+            }`}
+          >
+            {isSealing
+              ? "Sealing…"
+              : isReady
+                ? "In tote ✓"
+                : "Brew it"}
+          </motion.button>
 
-      <div className="mt-4 grid grid-cols-2 gap-x-3 rounded-2xl border border-dashed border-[#d4c4b0] bg-white/30 px-4 py-2.5 font-mono text-[11px] text-[#6b5d4f]">
-        <p>Pearls: {cup.pearls.length}</p>
-        <p>Ice cubes: {cup.iceCubes.length}</p>
-        <p>
-          Liquid: {Math.round(cup.liquidLevel)}% / {MAX_LIQUID_LEVEL}%
-        </p>
-        <p>
-          Flavor:{" "}
-          {cup.currentFlavor ? getDrinkById(cup.currentFlavor)?.name : "—"}
-        </p>
-      </div>
+          <motion.button
+            type="button"
+            disabled={!canReset || isSealing}
+            whileTap={canReset && !isSealing ? { scale: 0.97 } : undefined}
+            onClick={handleReset}
+            className={`btn-pill shrink-0 border px-3.5 py-2.5 text-sm font-semibold disabled:opacity-40 ${
+              isReady
+                ? "border-[#f4a582] bg-[#f4a582]/15 text-[#c4842f] active:bg-[#f4a582]/25 hover:bg-[#f4a582]/25"
+                : isNight
+                  ? "border-[#5c4f42] bg-[#2f2a26]/70 text-[#d4c4b0] active:bg-[#3d3830] hover:bg-[#3d3830]"
+                  : "border-[#d4c4b0] bg-white/50 text-[#6b5d4f] active:bg-[#f5ebe0] hover:bg-[#f5ebe0]"
+            }`}
+          >
+            {isReady ? "Redo" : "Reset"}
+          </motion.button>
+        </div>
+      </motion.div>
 
-      <motion.button
-        type="button"
-        disabled={!canAddToBag || locked}
-        whileTap={canAddToBag && !locked ? { scale: 0.97 } : undefined}
-        onClick={handleBrew}
-        className={`btn-pill mt-4 w-full px-8 py-3 font-semibold text-white disabled:opacity-40 ${
-          isReady
-            ? "bg-[#a8d5ba] hover:bg-[#a8d5ba]"
-            : "bg-[#c4842f] hover:bg-[#a86f25]"
-        }`}
-      >
-        {isSealing ? "Sealing…" : isReady ? "Ready! 🧋 In your tote" : "Brew It ✨"}
-      </motion.button>
-
-      <motion.button
-        type="button"
-        disabled={!canReset || isSealing}
-        whileTap={canReset && !isSealing ? { scale: 0.97 } : undefined}
-        onClick={handleReset}
-        className={`btn-pill mt-2 w-full border px-8 py-2.5 font-semibold disabled:opacity-40 ${
-          isReady
-            ? "border-[#f4a582] bg-[#f4a582]/15 text-[#c4842f] hover:bg-[#f4a582]/25"
-            : "border-[#d4c4b0] bg-white/50 text-[#6b5d4f] hover:bg-[#f5ebe0]"
-        }`}
-      >
-        {isReady ? "↺ Redo — start a new cup" : "Reset & Redo"}
-      </motion.button>
-    </motion.div>
-
-    <BrewToast open={toastOpen} />
+      <BrewToast open={toastOpen} isNight={isNight} />
     </>
   );
 }
 
-function BrewToast({ open }: { open: boolean }) {
+function BrewToast({ open, isNight }: { open: boolean; isNight: boolean }) {
   return (
     <AnimatePresence>
       {open ? (
         <motion.div
-          initial={{ opacity: 0, x: "-50%", y: 90, scale: 0.9 }}
+          initial={{ opacity: 0, x: "-50%", y: 70, scale: 0.94 }}
           animate={{ opacity: 1, x: "-50%", y: 0, scale: 1 }}
-          exit={{ opacity: 0, x: "-50%", y: 70, scale: 0.95 }}
+          exit={{ opacity: 0, x: "-50%", y: 50, scale: 0.96 }}
           transition={{ type: "spring", stiffness: 420, damping: 26 }}
-          style={{ left: "50%" }}
-          className="fixed bottom-8 z-50 overflow-hidden rounded-full border border-white/60 bg-[#fff8ec]/85 pl-3 pr-5 py-3 shadow-[0_12px_40px_-8px_rgba(244,165,130,0.65)] backdrop-blur-md"
+          style={{
+            left: "50%",
+            bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))",
+          }}
+          className={`fixed z-50 max-w-[min(92vw,22rem)] overflow-hidden rounded-full border px-3 py-2 shadow-[0_10px_28px_-10px_rgba(244,165,130,0.55)] backdrop-blur-md ${
+            isNight
+              ? "border-[#5c4f42] bg-[#2f2a26]/92"
+              : "border-white/60 bg-[#fff8ec]/90"
+          }`}
         >
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#a8d5ba] text-sm font-bold text-white">
+          <div className="flex items-center gap-2">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#a8d5ba] text-[10px] font-bold text-white">
               ✓
             </span>
-            <p className="pr-1 text-sm font-semibold text-[#5c4f42]">
-              Your custom boba is ready! 🧋 Popped it into your tote bag.
+            <p
+              className={`pr-1 text-xs font-semibold ${
+                isNight ? "text-[#f5ebe0]" : "text-[#5c4f42]"
+              }`}
+            >
+              Custom boba landed in your tote
             </p>
           </div>
           <motion.div
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
             transition={{ duration: TOAST_VISIBLE_MS / 1000, ease: "linear" }}
-            className="absolute bottom-0 left-0 h-1 rounded-full bg-[#f4a582]"
+            className="absolute bottom-0 left-0 h-0.5 rounded-full bg-[#f4a582]"
           />
         </motion.div>
       ) : null}
@@ -358,7 +428,7 @@ function BrewYourOwnContent() {
         isNight ? "bg-[#2a2622]" : "bg-[#fdf8f0]"
       }`}
     >
-      <div className="relative min-h-0 w-full flex-1 max-[1023px]:min-h-[38vh]">
+      <div className="relative min-h-0 w-full flex-1 max-[1023px]:min-h-[48vh]">
         <BrewCanvas key={brewKey} />
       </div>
       <BrewControls />

@@ -12,8 +12,8 @@ const BobaCanvas = dynamic(
 
 function CanvasFallback() {
   return (
-    <div className="flex h-full min-h-[340px] w-full items-center justify-center bg-[#f5ebe0]">
-      <div className="h-14 w-14 animate-pulse rounded-full bg-[#ead9c8]" />
+    <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[#f3e6d6]">
+      <div className="h-12 w-12 animate-pulse rounded-full bg-[#ead9c8]" />
     </div>
   );
 }

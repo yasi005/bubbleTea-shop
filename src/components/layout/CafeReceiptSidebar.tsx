@@ -23,7 +23,7 @@ export function CafeReceiptSidebar() {
 
   return (
     <aside
-      className={`receipt-sidebar no-scrollbar relative flex h-screen w-[25%] min-w-[260px] max-w-[320px] shrink-0 flex-col overflow-y-auto border-r px-6 py-8 ${
+      className={`receipt-sidebar no-scrollbar relative hidden h-screen w-[25%] min-w-[260px] max-w-[320px] shrink-0 flex-col overflow-y-auto border-r px-6 py-8 min-[901px]:flex ${
         isNight
           ? "border-[#3d3830] bg-[#2f2a26] text-[#f5ebe0]"
           : "border-[#e8dcc8]"

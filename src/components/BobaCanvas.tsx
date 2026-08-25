@@ -10,13 +10,14 @@ export interface BobaCanvasProps {
   spinTrigger?: number;
   interactive?: boolean;
   showParallax?: boolean;
+  cozy?: boolean;
   className?: string;
 }
 
 function CanvasFallback() {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="h-12 w-12 animate-pulse rounded-full bg-[#f5ebe0]" />
+      <div className="h-14 w-14 animate-pulse rounded-full bg-[#ead9c8]" />
     </div>
   );
 }
@@ -26,6 +27,7 @@ export function BobaCanvas({
   spinTrigger = 0,
   interactive = false,
   showParallax = false,
+  cozy = false,
   className = "",
 }: BobaCanvasProps) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
@@ -52,16 +54,27 @@ export function BobaCanvas({
       <Suspense fallback={<CanvasFallback />}>
         <Canvas
           shadows
-          camera={{ position: [0, 0.3, 3.2], fov: 42 }}
-          gl={{ antialias: true, alpha: false }}
+          dpr={cozy ? [1, 1.25] : [1, 1.5]}
+          camera={{
+            position: cozy ? [0, 0.45, 3.55] : [0, 0.3, 3.2],
+            fov: cozy ? 40 : 42,
+          }}
+          gl={{
+            antialias: false,
+            alpha: false,
+            powerPreference: "high-performance",
+            stencil: false,
+          }}
           className="!h-full !w-full"
           style={{ width: "100%", height: "100%", display: "block" }}
+          performance={{ min: 0.5 }}
         >
           <BobaCupScene
             liquidColor={liquidColor}
             spinTrigger={spinTrigger}
             interactive={interactive}
             showParallax={showParallax}
+            cozy={cozy}
             mouseX={mouse.x}
             mouseY={mouse.y}
           />

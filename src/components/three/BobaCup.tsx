@@ -15,6 +15,7 @@ interface BobaCupSceneProps {
   spinTrigger: number;
   interactive?: boolean;
   showParallax?: boolean;
+  cozy?: boolean;
   mouseX?: number;
   mouseY?: number;
 }
@@ -24,6 +25,7 @@ export function BobaCupScene({
   spinTrigger,
   interactive = false,
   showParallax = false,
+  cozy = false,
   mouseX = 0,
   mouseY = 0,
 }: BobaCupSceneProps) {
@@ -111,25 +113,65 @@ export function BobaCupScene({
 
   return (
     <>
-      <color attach="background" args={[isNight ? "#2a2622" : "#f5ebe0"]} />
+      <color
+        attach="background"
+        args={[
+          cozy
+            ? isNight
+              ? "#2a2622"
+              : "#f3e6d6"
+            : isNight
+              ? "#2a2622"
+              : "#f5ebe0",
+        ]}
+      />
       <ambientLight
-        intensity={isNight ? 0.3 : 0.6}
+        intensity={
+          cozy
+            ? isNight
+              ? 0.34
+              : 0.55
+            : isNight
+              ? 0.3
+              : 0.6
+        }
         color={isNight ? "#4a3f55" : "#fff5e8"}
       />
       <directionalLight
-        position={[4, 6, 3]}
-        intensity={isNight ? 0.85 : 1.25}
+        position={cozy ? [-0.5, 7, 4] : [4, 6, 3]}
+        intensity={
+          cozy
+            ? isNight
+              ? 0.5
+              : 0.7
+            : isNight
+              ? 0.85
+              : 1.25
+        }
         color={isNight ? "#f4a582" : "#ffe8cc"}
         castShadow
-        shadow-mapSize={[1024, 1024]}
+        shadow-mapSize={cozy ? [512, 512] : [1024, 1024]}
       />
       <directionalLight
         position={[-3, 2, -2]}
-        intensity={isNight ? 0.25 : 0.35}
+        intensity={
+          cozy
+            ? isNight
+              ? 0.22
+              : 0.32
+            : isNight
+              ? 0.25
+              : 0.35
+        }
         color={isNight ? "#ff8c69" : "#fff8f0"}
       />
       {isNight ? (
-        <pointLight position={[2, 3, 2]} intensity={0.6} color="#ff8c69" distance={10} />
+        <pointLight
+          position={cozy ? [-0.4, 2.5, 2] : [2, 3, 2]}
+          intensity={cozy ? 0.35 : 0.6}
+          color="#ff8c69"
+          distance={10}
+        />
       ) : null}
 
       {showParallax ? (
@@ -138,6 +180,7 @@ export function BobaCupScene({
 
       <group
         ref={cupGroupRef}
+        position={cozy ? [0, 0.12, 0] : [0, 0, 0]}
         onPointerDown={(event) => {
           if (!interactive) {
             return;
@@ -168,15 +211,20 @@ export function BobaCupScene({
       </group>
 
       <ContactShadows
-        position={[0, -1.05, 0]}
-        opacity={0.38}
+        position={[0, cozy ? -0.95 : -1.05, 0]}
+        opacity={cozy ? 0.28 : 0.38}
         scale={8}
-        blur={2.8}
+        blur={cozy ? 3.2 : 2.8}
         far={4}
+        resolution={cozy ? 256 : 512}
         color="#c4842f"
       />
       <Suspense fallback={null}>
-        <Environment preset="apartment" />
+        <Environment
+          preset="apartment"
+          environmentIntensity={cozy ? 0.4 : 1}
+          resolution={cozy ? 256 : 512}
+        />
       </Suspense>
     </>
   );

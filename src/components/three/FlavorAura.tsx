@@ -22,34 +22,41 @@ function AuraGroup({
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
-    if (!groupRef.current) {
+    const group = groupRef.current;
+    if (!group) {
       return;
     }
-    groupRef.current.traverse((node) => {
-      if (!("isMesh" in node) || !(node as THREE.Mesh).isMesh) {
+
+    let settled = true;
+    group.traverse((node) => {
+      if (!(node as THREE.Mesh).isMesh) {
         return;
       }
       const mesh = node as THREE.Mesh;
       const materials = Array.isArray(mesh.material)
         ? mesh.material
         : [mesh.material];
-      materials.forEach((material) => {
+      for (const material of materials) {
         if (!("opacity" in material)) {
-          return;
+          continue;
         }
         const mat = material as THREE.MeshStandardMaterial;
-        const goal =
-          typeof mat.userData.goalOpacity === "number"
+        const goal = visible
+          ? typeof mat.userData.goalOpacity === "number"
             ? mat.userData.goalOpacity
-            : 0.7;
+            : 0.7
+          : 0;
         mat.transparent = true;
-        mat.opacity = THREE.MathUtils.lerp(
-          mat.opacity,
-          visible ? goal : 0,
-          0.07,
-        );
-      });
+        const next = THREE.MathUtils.lerp(mat.opacity, goal, 0.07);
+        if (Math.abs(next - goal) > 0.01) {
+          settled = false;
+        }
+        mat.opacity = next;
+      }
     });
+
+    // Hide fully faded auras so they stop contributing draw calls.
+    group.visible = visible || !settled;
   });
 
   return <group ref={groupRef}>{children}</group>;

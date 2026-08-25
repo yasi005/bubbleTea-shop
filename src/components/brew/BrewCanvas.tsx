@@ -19,9 +19,16 @@ export function BrewCanvas() {
       <Suspense fallback={<CanvasFallback />}>
         <Canvas
           shadows
+          dpr={[1, 1.5]}
           className="!h-full !w-full"
           style={{ width: "100%", height: "100%", display: "block" }}
-          gl={{ antialias: true, alpha: false }}
+          gl={{
+            antialias: false,
+            alpha: false,
+            powerPreference: "high-performance",
+            stencil: false,
+          }}
+          performance={{ min: 0.5 }}
         >
           <BrewScene />
         </Canvas>

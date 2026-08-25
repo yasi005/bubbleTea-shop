@@ -9,7 +9,7 @@ export function CafeFooter() {
 
   return (
     <footer
-      className={`relative z-10 flex shrink-0 items-center justify-between gap-4 border-t border-dashed px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest ${
+      className={`relative z-10 hidden shrink-0 items-center justify-between gap-4 border-t border-dashed px-6 py-2.5 font-mono text-[10px] uppercase tracking-widest min-[901px]:flex ${
         isNight
           ? "border-[#3d3830] bg-[#2f2a26] text-[#a89888]"
           : "border-[#e8dcc8] bg-[#fdf8f0]/90 text-[#8b7a68]"

@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Phones sticky-hover and reflow a lot — only apply hover when a real pointer exists. */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
 @theme inline {
   --color-cream: #fdf8f0;
   --color-cream-dark: #f5ebe0;
@@ -12,8 +21,8 @@
   --color-strawberry: #f4b8c1;
   --color-mango: #f5d76e;
   --color-peach: #f4a582;
-  --font-display: var(--font-quicksand);
-  --font-body: var(--font-source-sans);
+  --font-display: var(--font-bubble);
+  --font-body: var(--font-quicksand);
   --shadow-warm: 0 8px 24px rgb(244 165 130 / 0.14);
   --shadow-warm-lg: 0 16px 40px rgb(244 165 130 / 0.18);
   --shadow-warm-hover: 0 12px 32px rgb(244 165 130 / 0.22);
@@ -31,6 +40,8 @@ body {
   background: var(--color-cream);
   color: var(--color-warm-text);
   font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.015em;
   min-height: 100vh;
 }
 
@@ -43,8 +54,25 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-display), system-ui, sans-serif;
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
   color: var(--color-warm-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* Tiny labels stay soft-rounded instead of harsh monospace */
+.font-mono {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 ::selection {
@@ -77,9 +105,23 @@ h4 {
     background-color 0.25s ease;
 }
 
-.btn-pill:hover:not(:disabled) {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-warm-hover);
+@media (hover: hover) and (pointer: fine) {
+  .btn-pill:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-warm-hover);
+  }
+
+  .card-warm:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-warm-lg);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .btn-pill,
+  .card-warm {
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+  }
 }
 
 .card-warm {
@@ -90,11 +132,6 @@ h4 {
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
-}
-
-.card-warm:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-warm-lg);
 }
 
 @keyframes float {
@@ -191,35 +228,10 @@ html[data-vibe="night"] .receipt-grain {
   transform-style: preserve-3d;
 }
 
+/* Phone shell: receipt becomes a dedicated React tab bar (MobileTabBar).
+   Keep this rule only as a night-mode border sync for any leftover markup. */
 @media (max-width: 900px) {
-  .receipt-sidebar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 40;
-    height: auto;
-    width: 100%;
-    max-width: none;
-    min-width: 0;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0;
-    border-right: 0;
-    border-top: 1px solid #e8dcc8;
-    padding: 0.75rem 1rem;
-  }
-
-  .receipt-sidebar nav {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    margin-top: 0;
-    flex: 1;
-  }
-
-  .receipt-sidebar > div:first-of-type,
-  .receipt-sidebar > div:last-of-type {
-    display: none;
+  html[data-vibe="night"] .mobile-tab-bar {
+    border-color: #3d3830;
   }
 }

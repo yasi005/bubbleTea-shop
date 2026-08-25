@@ -44,6 +44,10 @@ export function CounterCup({
     if (!float) {
       return;
     }
+    if (!isActive && Math.abs(float.position.y) < 0.0005) {
+      float.position.y = 0;
+      return;
+    }
     const target =
       isActive && !checkoutOpen ? Math.sin(clock.elapsedTime * 1.4) * 0.045 : 0;
     float.position.y += (target - float.position.y) * Math.min(1, delta * 5);
@@ -112,25 +116,28 @@ export function CounterCup({
         />
       </group>
 
-      {CONDENSATION.map((pos, index) => (
-        <mesh key={index} position={pos as [number, number, number]} scale={0.035}>
-          <sphereGeometry args={[1, 8, 8]} />
-          <meshPhysicalMaterial
-            color="#e8f4fc"
-            transparent
-            opacity={isActive ? 0.55 : 0.25}
-            roughness={0.1}
-            metalness={0}
-            transmission={0.6}
-            thickness={0.2}
-          />
-        </mesh>
-      ))}
+      {isActive
+        ? CONDENSATION.map((pos, index) => (
+            <mesh
+              key={index}
+              position={pos as [number, number, number]}
+              scale={0.035}
+            >
+              <sphereGeometry args={[1, 6, 6]} />
+              <meshStandardMaterial
+                color="#e8f4fc"
+                transparent
+                opacity={0.45}
+                roughness={0.35}
+                metalness={0}
+              />
+            </mesh>
+          ))
+        : null}
 
-      <FlavorAura
-        flavorId={drink.id}
-        visible={isActive && !checkoutOpen}
-      />
+      {isActive ? (
+        <FlavorAura flavorId={drink.id} visible={!checkoutOpen} />
+      ) : null}
     </a.group>
   );
 }
