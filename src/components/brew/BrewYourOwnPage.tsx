@@ -632,11 +632,11 @@ function BrewYourOwnContent() {
 
   return (
     <div
-      className={`relative flex h-full overflow-hidden ${
+      className={`relative flex h-full max-h-full min-h-0 overflow-hidden overscroll-none touch-none ${
         isMobile ? "flex-col" : "flex-row"
       } ${isNight ? "bg-[#2a2622]" : "bg-[#fdf8f0]"}`}
     >
-      <div className="relative min-h-0 w-full flex-1">
+      <div className="relative min-h-0 w-full flex-1 overflow-hidden">
         <BrewCanvas key={brewKey} />
         {isMobile ? (
           <div
