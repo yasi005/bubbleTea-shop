@@ -244,7 +244,7 @@ function MobileBrewDock() {
         animate={{ opacity: a.isSealing ? 0 : 1 }}
         transition={{ duration: a.isSealing ? 0.45 : 0.35 }}
         style={{ pointerEvents: a.isSealing ? "none" : "auto" }}
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-2.5 pb-2 pt-8"
+        className="pointer-events-none absolute inset-x-0 z-20 px-2.5 pt-8 max-[900px]:bottom-[var(--mobile-tab-inset)] max-[900px]:pb-2 lg:bottom-0"
       >
         <div
           className={`pointer-events-auto rounded-[1.25rem] border px-2.5 pb-2.5 pt-2 shadow-[0_12px_32px_-14px_rgba(139,111,71,0.45)] backdrop-blur-md ${

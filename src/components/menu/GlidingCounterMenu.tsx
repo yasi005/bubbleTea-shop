@@ -217,7 +217,7 @@ export function GlidingCounterMenu() {
         <div
           className={`absolute z-10 w-full ${
             isMobile
-              ? "bottom-2 left-0 px-2.5"
+              ? "bottom-[calc(var(--mobile-tab-inset)+0.5rem)] left-0 px-2.5"
               : "pointer-events-none bottom-6 left-1/2 max-w-md -translate-x-1/2 text-center"
           }`}
         >

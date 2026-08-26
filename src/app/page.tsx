@@ -27,14 +27,14 @@ export default function HomePage() {
 
   return (
     <div
-      className={`relative h-full min-h-full overflow-hidden ${
+      className={`relative h-full min-h-0 overflow-hidden overscroll-none touch-none ${
         isNight ? "bg-[#2a2622]" : "bg-[#f3e6d6]"
       }`}
     >
-      {/* Warm porch atmosphere behind the cup */}
+      {/* Warm porch atmosphere — fixed on phone so it fills the whole screen */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 max-[900px]:fixed max-[900px]:inset-0 max-[900px]:z-0"
         style={{
           background: isNight
             ? "radial-gradient(ellipse 80% 70% at 55% 35%, #3d322c 0%, #2a2622 62%, #221e1b 100%)"
@@ -43,15 +43,15 @@ export default function HomePage() {
       />
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 bottom-0 h-[42%] ${
+        className={`pointer-events-none absolute inset-x-0 bottom-0 h-[42%] max-[900px]:fixed max-[900px]:z-0 ${
           isNight
             ? "bg-gradient-to-t from-[#1f1b18] via-[#2a2622]/80 to-transparent"
             : "bg-gradient-to-t from-[#dfc7a8]/90 via-[#ead5bc]/45 to-transparent"
         }`}
       />
 
-      {/* Full-bleed cup — the porch’s only visual anchor */}
-      <div className="absolute inset-0">
+      {/* Full-bleed cup */}
+      <div className="absolute inset-0 z-[1]">
         <HomeBobaCanvas
           liquidColor={activeDrink.liquidColor}
           spinTrigger={spinTrigger}
@@ -61,17 +61,17 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Soft light wash so type stays readable without boxing the cup */}
+      {/* Soft light wash */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-0 ${
+        className={`pointer-events-none absolute inset-0 z-[2] max-[900px]:fixed max-[900px]:inset-0 ${
           isNight
             ? "bg-gradient-to-t from-[#1c1916]/85 via-[#2a2622]/15 to-transparent max-[900px]:from-[#1c1916]/90"
             : "bg-gradient-to-t from-[#e8d4b8]/80 via-[#f5e6d4]/10 to-transparent max-[900px]:from-[#e4cfb2]/88"
         }`}
       />
 
-      <div className="relative z-10 flex h-full min-h-full flex-col justify-end px-5 pb-6 pt-8 sm:px-8 sm:pb-8 lg:justify-between lg:px-12 lg:pb-10 lg:pt-12">
+      <div className="relative z-10 flex h-full flex-col justify-end px-5 pt-8 max-[900px]:pb-[calc(var(--mobile-tab-inset)+0.75rem)] sm:px-8 sm:pb-8 lg:justify-between lg:px-12 lg:pb-10 lg:pt-12">
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
