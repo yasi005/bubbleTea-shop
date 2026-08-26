@@ -2,8 +2,6 @@
 
 # 🧋 Bubble Tea Boutique
 
-<img src="public/cover.png" alt="Bubble Tea Boutique — a cozy 3D tea shop" width="820">
-
 **A cozy little tea shop that happens to run at 60fps.**
 
 Pour it, shake it, seal it, sip it. Every cup is a real 3D object with real physics —
@@ -11,7 +9,7 @@ pearls that actually fall, ice that actually clinks, a lid that actually snaps s
 
 ### [☕ Visit the shop →](https://bubbletea-shop.yazmin.dev)
 
-[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/yasi005/bubbleTea-shop/actions/workflows/ci.yml/badge.svg)](https://github.com/yasi005/bubbleTea-shop/actions/workflows/ci.yml)
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![Three.js](https://img.shields.io/badge/three.js-r175-000000?logo=three.js&logoColor=white)
