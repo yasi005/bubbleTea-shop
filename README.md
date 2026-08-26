@@ -9,7 +9,7 @@
 Pour it, shake it, seal it, sip it. Every cup is a real 3D object with real physics —
 pearls that actually fall, ice that actually clinks, a lid that actually snaps shut.
 
-### [☕ Visit the shop →](https://YOUR-DEPLOYMENT-URL.vercel.app)
+### [☕ Visit the shop →](https://bubbletea-shop.yazmin.dev)
 
 [![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
 ![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=next.js&logoColor=white)
@@ -172,8 +172,11 @@ model:
 
 ## ☁️ Deploy
 
-Push to GitHub, then import the repo at [vercel.com](https://vercel.com). Vercel
-detects Next.js and the defaults are correct — no configuration, no env vars.
+**Live:** [bubbletea-shop.yazmin.dev](https://bubbletea-shop.yazmin.dev)
+
+Push to GitHub, then import the repo at [vercel.com](https://vercel.com) (or
+point your own domain at it). Next.js is detected automatically — no
+configuration, no env vars.
 
 Sanity-check the production build locally first:
 
@@ -198,3 +201,4 @@ npm run build && npm run start
 **MIT licensed** — take it, remix it, open your own shop. ☕
 
 </div>
+
